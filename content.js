@@ -2,11 +2,11 @@ console.log("loaded");
 let hasRunSuccessfully=false;
 let subjectNames= {};
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    if (request.action === 'triggerEverything' ) {
-        everything();
-    }
-});
+// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+//     if (request.action === 'triggerEverything' ) {
+//         everything();
+//     }
+// });
 
 const calculateMargin = (totalConducted, absent) => {
     let conducted= totalConducted

@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const triggerButton = document.getElementById('triggerButton');
-
-    triggerButton.addEventListener('click', function () {
-        // Send a message to the active tab to trigger the content script
-        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            const activeTab = tabs[0];
-            chrome.tabs.sendMessage(activeTab.id, { action: 'triggerEverything' });
-        });
-    });
+    var links = document.getElementsByTagName("a");
+    for (var i = 0; i < links.length; i++) {
+        (function () {
+            var ln = links[i];
+            var location = ln.href;
+            ln.onclick = function () {
+                chrome.tabs.create({active: true, url: location});
+            };
+        })();
+    }
 });
