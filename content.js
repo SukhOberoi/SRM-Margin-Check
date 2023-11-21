@@ -137,8 +137,8 @@ waitForElm('table[bgcolor="#FAFAD2"]').then((elm) => {
 });
 
 
-document.querySelector("#My_Attendance").addEventListener('click', ()=>{
-    waitForElm('table[bgcolor="#FAFAD2"]').then((elm) => {
-        everything();
-    });
-});
+// document.querySelector("#My_Attendance").addEventListener('click', ()=>{
+//     waitForElm('table[bgcolor="#FAFAD2"]').then((elm) => {
+//         everything();
+//     });
+// });
