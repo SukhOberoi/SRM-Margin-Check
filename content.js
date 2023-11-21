@@ -15,7 +15,7 @@ const calculateMargin = (totalConducted, absent) => {
     let current =  present/conducted*100
     // console.log(current)
     margin=0
-    if (current>=75){
+    if (current>75){
         while(current > 75){
             // console.log(`${margin} ${current} ${conducted}`)
             conducted++;
