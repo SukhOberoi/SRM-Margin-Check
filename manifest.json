@@ -1,0 +1,16 @@
+{
+    "manifest_version": 3,
+    "name": "SRM Academia Extended",
+    "version": "1.0",
+    "description": "Makes academia more user-friendly.",
+    "permissions": ["activeTab"],
+    "content_scripts": [
+      {
+        "matches": ["https://academia.srmist.edu.in/*"],
+        "js": ["content.js"]
+      }
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    }
+}
