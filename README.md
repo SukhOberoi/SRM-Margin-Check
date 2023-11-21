@@ -6,7 +6,7 @@ This is a chrome extension to make Academia more tolerable by adding a margin co
 
 ![screenshot1](ss/chrome_WErvJ8b8QL.png)
 
-![screenshot2](ss/chrome_WErvJ8b8QL.png)
+![screenshot2](ss/chrome_n1Oq3xx0OK.png)
 
 
 # Without extension:
