@@ -11,22 +11,14 @@ const MIXPANEL_TOKEN = '3eec01e18d86ddd2a94b043de5658718';
 const navigatorVendor = navigator.vendor;
 
 
-// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-//     if (request.action === 'triggerEverything' ) {
-//         everything();
-//     }
-// });
-
 const calculateMargin = (totalConducted, absent) => {
     let conducted = totalConducted
     let abs = absent
     let present = conducted - abs;
     let current = present / conducted * 100
-    // console.log(current)
     margin = 0
     if (current > 75) {
         while (current >= 75) {
-            // console.log(`${margin} ${current} ${conducted}`)
             conducted++;
             margin++;
             current = present / conducted * 100;
@@ -51,16 +43,12 @@ function everything() {
     const marksTable = document.querySelector('p + table');
 
     if (attendanceTable) {
-        // let headerCell = document.createElement('td');
-        // headerCell.textContent = 'New Column';
-        // attendanceTable.querySelector('table[bgcolor="#FAFAD2"] tr:first-child').appendChild(headerCell);
 
         const rows = attendanceTable.querySelectorAll('tbody tr:not(:first-child)');
         const head = attendanceTable.querySelector('tbody tr:first-child');
         let headcell = document.createElement('td');
         headcell.innerHTML = '<strong>Margin</strong>';
         head.append(headcell);
-        // console.log(rows);
         rows.forEach(function (row) {
             //logic for calculating margin and saving course id and name in a json
             subjectNames[`${row.cells[0].innerHTML.substring(0, row.cells[0].innerHTML.indexOf("<br>"))}`] = row.cells[1].textContent;
@@ -74,7 +62,6 @@ function everything() {
             }
             row.appendChild(cell);
         });
-        // console.log(subjectNames);
     }
 
     if (marksTable) {
@@ -95,10 +82,8 @@ function everything() {
                 let sum = 0;
                 let totalMarks = 0;
                 cells.forEach(function (cell) {
-                    // console.log(cell.innerHTML);
                     const number = parseFloat(cell.innerHTML.substring(cell.innerHTML.lastIndexOf("<br>") + 4));
                     const max = parseFloat(cell.innerHTML.substring(cell.innerHTML.indexOf("/") + 1), cell.innerHTML.indexOf("</strong>"));
-                    // console.log(number);
                     if (!isNaN(number)) {
                         sum += number;
                     }
@@ -119,14 +104,6 @@ function everything() {
 }
 
 
-
-
-
-
-// const everythingonTime = () => {setTimeout(() => {
-//     everything();
-// }, 5000);}
-// everythingonTime();
 function waitForElm(selector) {
     return new Promise(resolve => {
         if (document.querySelector(selector)) {
@@ -179,9 +156,3 @@ function sendanalytics() {
         .then(response => console.log(response))
         .catch(err => console.error(err));
 }
-
-// document.querySelector("#My_Attendance").addEventListener('click', ()=>{
-//     waitForElm('table[bgcolor="#FAFAD2"]').then((elm) => {
-//         everything();
-//     });
-// });
