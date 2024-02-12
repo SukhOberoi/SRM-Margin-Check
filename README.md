@@ -17,6 +17,8 @@ This is a chrome extension to make Academia more tolerable by adding a margin co
 
 ![screenshot2](ss/chrome_n1Oq3xx0OK.png)
 
+![screenshot6](ss/Screenshot 2024-02-13 at 1.02.06 AM.png)
+
 
 ## Without extension:
 
@@ -24,4 +26,6 @@ This is a chrome extension to make Academia more tolerable by adding a margin co
 ![screenshot3](ss/chrome_fCZJjvN2aZ.png)
 
 ![screenshot4](ss/chrome_XWzyNOmnKg.png)
+
+![screenshot5](ss/Screenshot 2024-02-13 at 12.56.30 AM.png)
 
