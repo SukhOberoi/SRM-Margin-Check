@@ -13,6 +13,8 @@ This is a chrome extension to make Academia more tolerable by adding a margin co
 
 ## With extension:
 
+![screenshotsp](ss/spOG)
+
 ![screenshot1](ss/chrome_WErvJ8b8QL.png)
 
 ![screenshot2](ss/chrome_n1Oq3xx0OK.png)
@@ -20,6 +22,7 @@ This is a chrome extension to make Academia more tolerable by adding a margin co
 
 ## Without extension:
 
+![screenshotsp](ss/spnew)
 
 ![screenshot3](ss/chrome_fCZJjvN2aZ.png)
 
