@@ -142,7 +142,7 @@ function sendanalytics() {
       distinct_id: `${localStorage.getItem("mixpanel_distinct_id")}`,
       vendor: `${navigatorVendor}`,
     },
-    event: "Times academia made better",
+    event: "Times student portal made better",
   };
   const data = JSON.stringify(payload);
   fetch("https://api.mixpanel.com/track", {
@@ -157,6 +157,6 @@ function sendanalytics() {
     },
   })
     .then((response) => response.json())
-    // .then(response => console.log(response))
+    .then(response => console.log(response))
     .catch((err) => console.error(err));
 }

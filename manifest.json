@@ -1,9 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "SRM Academia Extended",
+  "name": "SRM Margin Check",
   "version": "1.0",
-  "description": "Makes academia more user-friendly.",
-  "permissions": ["activeTab"],
+  "description": "Makes academia and student portal more user-friendly. See attendance margin right on the official website.",  
   "content_scripts": [
     {
       "matches": ["https://sp.srmist.edu.in/*"],
@@ -15,6 +14,9 @@
     }
   ],
   "action": {
-      "default_popup": "popup.html"
+      "default_popup": "popup.html",
+      "default_icon": {
+        "128": "LOGO-128.png"
+    }
   }
 }
