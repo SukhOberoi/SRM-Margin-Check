@@ -15,7 +15,7 @@ This is a chrome extension to make Academia and student portal more tolerable by
 
 ## With extension:
 
-![screenshotsp](ss/spOG)
+![screenshotsp](ss/spnew)
 
 ![screenshot1](ss/chrome_WErvJ8b8QL.png)
 
@@ -24,7 +24,7 @@ This is a chrome extension to make Academia and student portal more tolerable by
 
 ## Without extension:
 
-![screenshotsp](ss/spnew)
+![screenshotsp](ss/spOG)
 
 ![screenshot3](ss/chrome_fCZJjvN2aZ.png)
 
