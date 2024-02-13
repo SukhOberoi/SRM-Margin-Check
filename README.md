@@ -1,6 +1,8 @@
 # SRM-Margin-Check
- 
-This is a chrome extension to make Academia more tolerable by adding a margin column in the attendance table and giving total marks and showing the subject name in the marks table.
+
+![logo](LOGO-128.png)
+
+This is a chrome extension to make Academia and student portal more tolerable by adding a margin column in the attendance table and giving total marks and showing the subject name in the marks table.
 
 
 ## Steps to install extension
