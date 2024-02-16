@@ -67,7 +67,6 @@ function everything() {
       if (margin < 0) {
         cell.style.color = "red";
       }
-      cell.style.backgroundColor = "#E6E6FA";
       row.appendChild(cell);
     });
   }
