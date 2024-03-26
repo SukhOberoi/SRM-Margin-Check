@@ -1,6 +1,6 @@
 # SRM-Margin-Check
 
-![logo](LOGO-128.png)
+![logo](assets/logo-128.png)
 
 This is a chrome extension to make Academia and student portal more tolerable by adding a margin column in the attendance table and giving total marks and showing the subject name in the marks table.
 
@@ -16,18 +16,18 @@ This is a chrome extension to make Academia and student portal more tolerable by
 
 ## With extension:
 
-![screenshotsp](ss/spnew)
+![screenshotsp](assets/screenshots/student-portal-after.png)
 
-![screenshot1](ss/chrome_WErvJ8b8QL.png)
+![screenshot1](assets/screenshots/chrome_WErvJ8b8QL.png)
 
-![screenshot2](ss/chrome_n1Oq3xx0OK.png)
+![screenshot2](assets/screenshots/chrome_n1Oq3xx0OK.png)
 
 
 ## Without extension:
 
-![screenshotsp](ss/spOG)
+![screenshotsp](assets/screenshots/student-portal-before.png)
 
-![screenshot3](ss/chrome_fCZJjvN2aZ.png)
+![screenshot3](assets/screenshots/chrome_fCZJjvN2aZ.png)
 
-![screenshot4](ss/chrome_XWzyNOmnKg.png)
+![screenshot4](assets/screenshots/chrome_XWzyNOmnKg.png)
 
