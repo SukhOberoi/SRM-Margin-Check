@@ -149,10 +149,12 @@ async function applyMagicToAcademiaPortal() {
 	const marksTable = document.querySelector("p + table");
 	const rows = attendanceTable.querySelectorAll("tbody tr:not(:first-child)");
 	const head = attendanceTable.querySelector("tbody tr:first-child");
+	const attendanceHeading = head.children[7];
 
 	const headCell = document.createElement("td");
 	headCell.innerHTML = "<strong>Margin</strong>";
-	head.append(headCell);
+	head.insertBefore(headCell, attendanceHeading.nextSibling);
+
 
 	for (const row of rows) {
 		SUBJECTMAP[
@@ -171,6 +173,7 @@ async function applyMagicToAcademiaPortal() {
 		}
 		cell.style.backgroundColor = "#E6E6FA";
 		row.appendChild(cell);
+		row.insertBefore(cell, row.children[7].nextSibling);
 	}
 
 	if (!marksTable) return;
