@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "SRM Margin Check",
-	"version": "1.1",
+	"version": "1.2",
 	"description": "Makes academia and student portal more user-friendly. See attendance margin right on the official website.",
 	"content_scripts": [
 		{

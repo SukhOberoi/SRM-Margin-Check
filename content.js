@@ -145,78 +145,81 @@ async function applyMagicToStudentPortal() {
  * @description Applies the magic to the Academia portal.
  */
 async function applyMagicToAcademiaPortal() {
-	const attendanceTable = await waitForElement("table[bgcolor='#FAFAD2']");
-	const marksTable = document.querySelector("p + table");
-	const rows = attendanceTable.querySelectorAll("tbody tr:not(:first-child)");
-	const head = attendanceTable.querySelector("tbody tr:first-child");
-	const attendanceHeading = head.children[7];
+	if (!document.getElementById("margin-head")) {
+		const attendanceTable = await waitForElement("table[bgcolor='#FAFAD2']");
+		const marksTable = document.querySelector("p + table");
+		const rows = attendanceTable.querySelectorAll("tbody tr:not(:first-child)");
+		const head = attendanceTable.querySelector("tbody tr:first-child");
+		const attendanceHeading = head.children[7];
 
-	const headCell = document.createElement("td");
-	headCell.innerHTML = "<strong>Margin</strong>";
-	head.insertBefore(headCell, attendanceHeading.nextSibling);
+		const headCell = document.createElement("td");
+		headCell.id = "margin-head"
+		headCell.innerHTML = "<strong>Margin</strong>";
+		head.insertBefore(headCell, attendanceHeading.nextSibling);
 
 
-	for (const row of rows) {
-		SUBJECTMAP[
-			`${row.cells[0].innerHTML.substring(
-				0,
-				row.cells[0].innerHTML.indexOf("<br>"),
-			)}`
-		] = row.cells[1].textContent;
-		const hoursConductedS = row.cells[5].textContent;
-		const absentS = row.cells[6].textContent;
-		const cell = document.createElement("td");
-		const margin = calculateMargin(hoursConductedS, absentS);
-		cell.textContent = `${margin}`;
-		if (margin < 0) {
-			cell.style.color = "red";
-		}
-		cell.style.backgroundColor = "#E6E6FA";
-		row.appendChild(cell);
-		row.insertBefore(cell, row.children[7].nextSibling);
-	}
-
-	if (!marksTable) return;
-	const marksRows = marksTable.querySelectorAll("tbody tr:not(:first-child)");
-
-	for (const row of marksRows) {
-		const nestedTable = row.querySelector("table table");
-
-		row.cells[0].textContent += ` ${SUBJECTMAP[row.cells[0].textContent]}`;
-		row.cells[0].style.textAlign = "left";
-
-		if (!nestedTable) return;
-
-		nestedTable.style.width = "100%";
-
-		const cells = nestedTable.querySelectorAll('td font[size="1.5"]');
-
-		let sum = 0;
-		let totalMarks = 0;
-
-		for (const cell of cells) {
-			const number = Number.parseFloat(
-				cell.innerHTML.substring(cell.innerHTML.lastIndexOf("<br>") + 4),
-			);
-			const max = Number.parseFloat(
-				cell.innerHTML.substring(cell.innerHTML.indexOf("/") + 1),
-				cell.innerHTML.indexOf("</strong>"),
-			);
-			if (!Number.isNaN(number)) {
-				sum += number;
+		for (const row of rows) {
+			SUBJECTMAP[
+				`${row.cells[0].innerHTML.substring(
+					0,
+					row.cells[0].innerHTML.indexOf("<br>"),
+				)}`
+			] = row.cells[1].textContent;
+			const hoursConductedS = row.cells[5].textContent;
+			const absentS = row.cells[6].textContent;
+			const cell = document.createElement("td");
+			const margin = calculateMargin(hoursConductedS, absentS);
+			cell.textContent = `${margin}`;
+			if (margin < 0) {
+				cell.style.color = "red";
 			}
-			if (!Number.isNaN(max)) {
-				totalMarks += max;
-			}
+			cell.style.backgroundColor = "#E6E6FA";
+			row.appendChild(cell);
+			row.insertBefore(cell, row.children[7].nextSibling);
 		}
 
-		const totalCell = document.createElement("td");
-		totalCell.innerHTML = `<strong>${sum.toFixed(
-			2,
-		)}</strong> / ${totalMarks.toFixed(2)}`;
-		totalCell.setAttribute("colspan", cells.length);
-		totalCell.style.textAlign = "center";
-		nestedTable.appendChild(totalCell);
+		if (!marksTable) return;
+		const marksRows = marksTable.querySelectorAll("tbody tr:not(:first-child)");
+
+		for (const row of marksRows) {
+			const nestedTable = row.querySelector("table table");
+
+			row.cells[0].textContent += ` ${SUBJECTMAP[row.cells[0].textContent]}`;
+			row.cells[0].style.textAlign = "left";
+
+			if (!nestedTable) return;
+
+			nestedTable.style.width = "100%";
+
+			const cells = nestedTable.querySelectorAll('td font[size="1.5"]');
+
+			let sum = 0;
+			let totalMarks = 0;
+
+			for (const cell of cells) {
+				const number = Number.parseFloat(
+					cell.innerHTML.substring(cell.innerHTML.lastIndexOf("<br>") + 4),
+				);
+				const max = Number.parseFloat(
+					cell.innerHTML.substring(cell.innerHTML.indexOf("/") + 1),
+					cell.innerHTML.indexOf("</strong>"),
+				);
+				if (!Number.isNaN(number)) {
+					sum += number;
+				}
+				if (!Number.isNaN(max)) {
+					totalMarks += max;
+				}
+			}
+
+			const totalCell = document.createElement("td");
+			totalCell.innerHTML = `<strong>${sum.toFixed(
+				2,
+			)}</strong> / ${totalMarks.toFixed(2)}`;
+			totalCell.setAttribute("colspan", cells.length);
+			totalCell.style.textAlign = "center";
+			nestedTable.appendChild(totalCell);
+		}
 	}
 }
 
@@ -229,9 +232,20 @@ async function main() {
 
 	if (hostname === "academia.srmist.edu.in") {
 		await applyMagicToAcademiaPortal();
+		let currentUrl = window.location.href;
+		// Function to check if the URL has changed
+		async function checkUrlChange() {
+			const newUrl = window.location.href;
+			if (newUrl !== currentUrl) {
+				currentUrl = newUrl;
+				if (currentUrl == "https://academia.srmist.edu.in/#Page:My_Attendance")
+				await applyMagicToAcademiaPortal(); // Reapply main function when URL changes
+			}
+		}
+		window.addEventListener("popstate", checkUrlChange);
 		console.log(
 			"%cMaking Academia Better Now",
-			"color: #bada55; font-size: 20px; font-weight: bold; font-family: 'Comic Sans MS', 'Comic Sans', cursive;",
+			"color: #bada55; font-size: 20px; font-weight: bold; font-family: 'Comic Sans MS', 'Comic Sans', cursive;"
 		);
 	}
 
@@ -239,18 +253,18 @@ async function main() {
 		await applyMagicToStudentPortal();
 		console.log(
 			"%cMaking Student Portal Better Now",
-			"color: #bada55; font-size: 20px; font-weight: bold; font-family: 'Comic Sans MS', 'Comic Sans', cursive;",
+			"color: #bada55; font-size: 20px; font-weight: bold; font-family: 'Comic Sans MS', 'Comic Sans', cursive;"
 		);
 	}
 
 	console.log(
 		"%cIf you are seeing this message, you are awesome!",
-		"color: #bada55; font-size: 20px; font-weight: bold; font-family: 'Comic Sans MS', 'Comic Sans', cursive;",
+		"color: #bada55; font-size: 20px; font-weight: bold; font-family: 'Comic Sans MS', 'Comic Sans', cursive;"
 	);
 
 	console.log(
 		"%cRaise any issues or contribute to the project at https://github.com/SukhOberoi/SRM-Margin-Check",
-		"color: #bada55; font-size: 20px; font-weight: bold; font-family: 'Comic Sans MS', 'Comic Sans', cursive;",
+		"color: #bada55; font-size: 20px; font-weight: bold; font-family: 'Comic Sans MS', 'Comic Sans', cursive;"
 	);
 
 	await injectAnalytics();
