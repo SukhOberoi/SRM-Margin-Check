@@ -144,7 +144,7 @@ async function applyMagicToStudentPortal() {
  * @returns {Promise<void>}
  * @description Applies the magic to the Academia portal.
  */
-async function applyMagicToAcademiaPortal() {
+/*async function applyMagicToAcademiaPortal() {
 	if (!document.getElementById("margin-head")) {
 		const attendanceTable = await waitForElement("table[bgcolor='#FAFAD2']");
 		const marksTable = document.querySelector("p + table");
@@ -221,6 +221,206 @@ async function applyMagicToAcademiaPortal() {
 			nestedTable.appendChild(totalCell);
 		}
 	}
+}*/
+/**
+ * @returns {Promise<void>}
+ * @description Applies the magic to the Academia portal.
+ */
+/*async function applyMagicToAcademiaPortal() {
+    if (!document.getElementById("margin-head")) {
+        const attendanceTable = await waitForElement("table[bgcolor='#FAFAD2']");
+        const marksTable = document.querySelector("p + table");
+        const rows = attendanceTable.querySelectorAll("tbody tr:not(:first-child)");
+        const head = attendanceTable.querySelector("tbody tr:first-child");
+        const attendanceHeading = head.children[7];
+
+        const headCell = document.createElement("td");
+        headCell.id = "margin-head";
+        headCell.innerHTML = "<strong>Margin</strong>";
+        head.insertBefore(headCell, attendanceHeading.nextSibling);
+
+        for (const row of rows) {
+            SUBJECTMAP[
+                `${row.cells[0].innerHTML.substring(
+                    0,
+                    row.cells[0].innerHTML.indexOf("<br>"),
+                )}`
+            ] = row.cells[1].textContent;
+            const hoursConductedS = row.cells[5].textContent;
+            const absentS = row.cells[6].textContent;
+            const cell = document.createElement("td");
+            const margin = calculateMargin(hoursConductedS, absentS);
+            cell.textContent = `${margin}`;
+            if (margin < 0) {
+                cell.style.color = "red";
+            }
+            cell.style.backgroundColor = "#E6E6FA";
+            row.appendChild(cell);
+            row.insertBefore(cell, row.children[7].nextSibling);
+
+            // Add faculty name link functionality
+            const facultyNameCell = row.cells[3]; // Assuming the faculty name is in the 4th column (index 3)
+            const facultyName = facultyNameCell.textContent.trim();
+            const facultyUrl = convertFacultyNameToUrl(facultyName);
+            if (facultyUrl) {
+                const link = document.createElement("a");
+                link.href = facultyUrl;
+                link.textContent = facultyName;
+                link.target = "_blank"; // Open in a new tab
+                facultyNameCell.innerHTML = ""; // Clear existing content
+                facultyNameCell.appendChild(link);
+            }
+        }
+
+        if (!marksTable) return;
+        const marksRows = marksTable.querySelectorAll("tbody tr:not(:first-child)");
+
+        for (const row of marksRows) {
+            const nestedTable = row.querySelector("table table");
+
+            row.cells[0].textContent += ` ${SUBJECTMAP[row.cells[0].textContent]}`;
+            row.cells[0].style.textAlign = "left";
+
+            if (!nestedTable) return;
+
+            nestedTable.style.width = "100%";
+
+            const cells = nestedTable.querySelectorAll('td font[size="1.5"]');
+
+            let sum = 0;
+            let totalMarks = 0;
+
+            for (const cell of cells) {
+                const number = Number.parseFloat(
+                    cell.innerHTML.substring(cell.innerHTML.lastIndexOf("<br>") + 4),
+                );
+                const max = Number.parseFloat(
+                    cell.innerHTML.substring(cell.innerHTML.indexOf("/") + 1),
+                    cell.innerHTML.indexOf("</strong>"),
+                );
+                if (!Number.isNaN(number)) {
+                    sum += number;
+                }
+                if (!Number.isNaN(max)) {
+                    totalMarks += max;
+                }
+            }
+
+            const totalCell = document.createElement("td");
+            totalCell.innerHTML = `<strong>${sum.toFixed(
+                2,
+            )}</strong> / ${totalMarks.toFixed(2)}`;
+            totalCell.setAttribute("colspan", cells.length);
+            totalCell.style.textAlign = "center";
+            nestedTable.appendChild(totalCell);
+        }
+    }
+}*/
+/**
+ * @returns {Promise<void>}
+ * @description Applies the magic to the Academia portal.
+ */
+/**
+ * @returns {Promise<void>}
+ * @description Applies the magic to the Academia portal.
+ */
+/**
+ * @returns {Promise<void>}
+ * @description Applies the magic to the Academia portal.
+ */
+async function applyMagicToAcademiaPortal() {
+    const currentUrl = window.location.href;
+
+    // Apply faculty name link functionality only on the "My Time Table 2023-24" page
+    if (currentUrl.includes("#Page:My_Time_Table_2023_24")) {
+        const table = await waitForElement("table.course_tbl");
+        const rows = table.querySelectorAll("tbody tr:not(:first-child)"); // Skip the header row
+
+        for (const row of rows) {
+            const facultyNameCell = row.cells[7]; // Faculty name is in the 8th column (index 7)
+            const facultyName = facultyNameCell.textContent.trim();
+            const facultyUrl = convertFacultyNameToUrl(facultyName);
+
+            if (facultyUrl) {
+                const link = document.createElement("a");
+                link.href = facultyUrl;
+                link.textContent = facultyName;
+                link.target = "_blank"; // Open in a new tab
+                facultyNameCell.innerHTML = ""; // Clear existing content
+                facultyNameCell.appendChild(link);
+            }
+        }
+    } else if (currentUrl.includes("#Page:My_Attendance")) {
+        // Apply only the margin calculation functionality for the "My Attendance" page
+        if (!document.getElementById("margin-head")) {
+            const attendanceTable = await waitForElement("table[bgcolor='#FAFAD2']");
+            const rows = attendanceTable.querySelectorAll("tbody tr:not(:first-child)");
+            const head = attendanceTable.querySelector("tbody tr:first-child");
+            const attendanceHeading = head.children[7];
+
+            const headCell = document.createElement("td");
+            headCell.id = "margin-head";
+            headCell.innerHTML = "<strong>Margin</strong>";
+            head.insertBefore(headCell, attendanceHeading.nextSibling);
+
+            for (const row of rows) {
+                const hoursConductedS = row.cells[5].textContent;
+                const absentS = row.cells[6].textContent;
+                const cell = document.createElement("td");
+                const margin = calculateMargin(hoursConductedS, absentS);
+                cell.textContent = `${margin}`;
+                if (margin < 0) {
+                    cell.style.color = "red";
+                }
+                cell.style.backgroundColor = "#E6E6FA";
+                row.appendChild(cell);
+                row.insertBefore(cell, row.children[7].nextSibling);
+            }
+        }
+    }
+}
+
+/**
+ * @param {string} facultyName - The name of the faculty.
+ * @returns {string} - The URL for the faculty's page.
+ * @description Converts a faculty name into the corresponding faculty page URL.
+ */
+/**
+ * @param {string} facultyName - The name of the faculty, possibly followed by an ID.
+ * @returns {string} - The URL for the faculty's page.
+ * @description Converts a faculty name into the corresponding faculty page URL, ignoring any trailing ID.
+ */
+/**
+ * @param {string} facultyName - The name of the faculty, possibly followed by an ID or brackets.
+ * @returns {string} - The URL for the faculty's page.
+ * @description Converts a faculty name into the corresponding faculty page URL, ignoring any trailing ID or brackets.
+ */
+/**
+ * @param {string} facultyName - The name of the faculty, possibly followed by an ID or brackets.
+ * @returns {string} - The URL for the faculty's page.
+ * @description Converts a faculty name into the corresponding faculty page URL, ignoring any trailing ID or brackets.
+ */
+/**
+ * @param {string} facultyName - The name of the faculty, possibly followed by an ID or brackets.
+ * @returns {string} - The URL for the faculty's page.
+ * @description Converts a faculty name into the corresponding faculty page URL, ignoring any trailing ID or brackets.
+ */
+function convertFacultyNameToUrl(facultyName) {
+    if (!facultyName) return null;
+
+    // Extract only the faculty name (ignore any trailing ID, brackets, or numbers)
+    const nameWithoutId = facultyName
+        .replace(/\s*\(?\d+\)?.*$/, "") // Remove any numbers, brackets, or trailing characters after the name
+        .trim(); // Remove leading/trailing spaces
+
+    // Convert the faculty name to lowercase and replace spaces and dots with hyphens
+    const formattedName = nameWithoutId
+        .toLowerCase()
+        .replace(/[\s.]+/g, "-") // Replace spaces and dots with hyphens
+        .replace(/--+/g, "-") // Replace multiple hyphens with a single hyphen
+        .replace(/(^-|-$)/g, ""); // Remove leading or trailing hyphens
+
+    return `https://www.srmist.edu.in/faculty/${formattedName}/`;
 }
 
 /**
