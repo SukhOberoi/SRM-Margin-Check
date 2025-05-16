@@ -182,7 +182,16 @@ async function applyMagicToAcademiaPortal() {
             const headCell = document.createElement("td");
             headCell.id = "margin-head";
             headCell.innerHTML = "<strong>Margin</strong>";
-            head.insertBefore(headCell, attendanceHeading.nextSibling);
+
+            try {
+                if (attendanceHeading) {
+                    head.insertBefore(headCell, attendanceHeading.nextSibling);
+                } else {
+                    console.warn("Attendance heading is undefined. Skipping margin header insertion.");
+                }
+            } catch (error) {
+                console.error("Error inserting margin header cell:", error);
+            }
 
             for (const row of rows) {
                 SUBJECTMAP[
@@ -191,17 +200,25 @@ async function applyMagicToAcademiaPortal() {
                         row.cells[0].innerHTML.indexOf("<br>"),
                     )}`
                 ] = row.cells[1].textContent;
-                const hoursConductedS = row.cells[5].textContent;
-                const absentS = row.cells[6].textContent;
+                const hoursConductedS = row.cells[5]?.textContent;
+                const absentS = row.cells[6]?.textContent;
+
+                if (!hoursConductedS || !absentS) {
+                    console.warn("Skipping row due to missing data for hours conducted or absent.");
+                    continue;
+                }
+
                 const cell = document.createElement("td");
-                const margin = calculateMargin(hoursConductedS, absentS);
+                const margin = calculateMargin(Number(hoursConductedS), Number(absentS));
                 cell.textContent = `${margin}`;
                 if (margin < 0) {
                     cell.style.color = "red";
                 }
                 cell.style.backgroundColor = "#E6E6FA";
                 row.appendChild(cell);
-                row.insertBefore(cell, row.children[7].nextSibling);
+                if (row.children[7]) {
+                    row.insertBefore(cell, row.children[7].nextSibling);
+                }
             }
 
             if (!marksTable) return;
