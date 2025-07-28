@@ -177,7 +177,9 @@ async function applyMagicToAcademiaPortal() {
             const marksTable = document.querySelector("p + table");
             const rows = attendanceTable.querySelectorAll("tbody tr:not(:first-child)");
             const head = attendanceTable.querySelector("tbody tr:first-child");
-            const attendanceHeading = head.children[7];
+            const attendanceHeading = Array.from(head.children).find(cell =>
+                cell.textContent.includes("Attn")
+            );
 
             const headCell = document.createElement("td");
             headCell.id = "margin-head";
@@ -200,8 +202,17 @@ async function applyMagicToAcademiaPortal() {
                         row.cells[0].innerHTML.indexOf("<br>"),
                     )}`
                 ] = row.cells[1].textContent;
-                const hoursConductedS = row.cells[5]?.textContent;
-                const absentS = row.cells[6]?.textContent;
+
+                // Find the indices of conducted and absent columns dynamically
+                const conductedIndex = Array.from(head.children).findIndex(cell =>
+                    cell.textContent.includes("Conducted")
+                );
+                const absentIndex = Array.from(head.children).findIndex(cell =>
+                    cell.textContent.includes("Absent")
+                );
+
+                const hoursConductedS = conductedIndex !== -1 ? row.cells[conductedIndex]?.textContent : null;
+                const absentS = absentIndex !== -1 ? row.cells[absentIndex]?.textContent : null;
 
                 if (!hoursConductedS || !absentS) {
                     console.warn("Skipping row due to missing data for hours conducted or absent.");
@@ -215,9 +226,15 @@ async function applyMagicToAcademiaPortal() {
                     cell.style.color = "red";
                 }
                 cell.style.backgroundColor = "#E6E6FA";
-                row.appendChild(cell);
-                if (row.children[7]) {
-                    row.insertBefore(cell, row.children[7].nextSibling);
+
+                // Insert the margin cell after the attendance column
+                const attendanceIndex = Array.from(head.children).findIndex(cell =>
+                    cell.textContent.includes("Attn")
+                );
+                if (attendanceIndex !== -1 && row.children[attendanceIndex + 1]) {
+                    row.insertBefore(cell, row.children[attendanceIndex + 1]);
+                } else {
+                    row.appendChild(cell);
                 }
             }
 
